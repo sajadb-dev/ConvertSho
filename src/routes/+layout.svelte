@@ -3,11 +3,12 @@
 	import Navelement from '$lib/components/navelement.svelte';
 	import MenuList from '$lib/components/MenuList.svelte';
 	import CloseIcon from '../lib/components/CloseIcon.svelte';
-
 	import { page } from '$app/state';
   	import { base } from '$app/paths';
+	import AppIcon from '$lib/components/AppIcon.svelte';
 
 	let { children } = $props();
+
 	let menuicon = $state();
 	let closeicon = $state();
 	let navbar = $state();
@@ -32,12 +33,12 @@
 	<div class="mx-12 h-full flex flex-row justify-between">
 		<div class="h-full"><a href="{base}/" aria-label="Go Back To Home Page" class="w-full h-full flex align-text-bottom items-center font-bold text-2xl text-amber-500 font-ghasem">تبدیل شو</a></div>
 		<ul class="h-full my-auto flex flex-row gap-[5vw] lg:gap-[6vw] font-base text-md">
-			<Navelement path="{base}/privacy" text="حریم خصوصی" arialabel="Go To Blog Page"/>
-			<Navelement path="{base}/about" text="درباره" arialabel="Go To Games Page"/>
-			<Navelement path="{base}/" text="خانه" arialabel="Go To Shop Page"/>
+			<Navelement path="{base}/privacy" text="حریم خصوصی" arialabel="Go To Privacy Page"/>
+			<Navelement path="{base}/about" text="درباره" arialabel="Go To About Page"/>
+			<Navelement path="{base}/" text="خانه" arialabel="Go To Home Page"/>
 		</ul>
 		<ul class="my-auto flex flex-row justify-center text-center items-center gap-[3vw] font-base text-md">
-			<li class=" bg-rose-600 px-4 py-2 rounded-md hover:bg-opacity-85 text-white"><a href="{base}/app-download">دانلود اپلیکیشن</a></li>
+			<li class=" bg-rose-600 px-4 py-2 rounded-md hover:bg-opacity-85 text-white"><a class="flex items-center gap-2" href="{base}/app-download"><AppIcon/>دانلود اپلیکیشن</a></li>
 		</ul>
 	</div>
 </nav>
@@ -59,10 +60,10 @@
 	<div>
 		<div class="mx-6 my-6 h-full flex flex-row justify-between">
 			<ul class="h-full my-auto flex flex-col gap-[6vw] font-base text-lg">
-				<Navelement path="{base}/" text="خانه" arialabel="Go To Blog Page"/>
-				<Navelement path="{base}/about" text="درباره" arialabel="Go To Games Page"/>
-				<Navelement path="{base}/privacy" text="حریم خصوصی" arialabel="Go To Shop Page"/>
-				<Navelement path="{base}/app-download" text="دانلود اپلیکیشن" arialabel="Go To Donate Page" classnames="text-lg text-orange-600 dark:text-orange-400 font-bold "/>
+				<Navelement path="{base}/" text="خانه" arialabel="Go To Home Page"/>
+				<Navelement path="{base}/about" text="درباره" arialabel="Go To About Page"/>
+				<Navelement path="{base}/privacy" text="حریم خصوصی" arialabel="Go To Privacy Page"/>
+				<Navelement path="{base}/app-download" text="دانلود اپلیکیشن" arialabel="Go To Application Download Page" classnames="text-lg text-orange-600 dark:text-orange-400 font-bold "/>
 			</ul>
 		</div>
 	</div>
