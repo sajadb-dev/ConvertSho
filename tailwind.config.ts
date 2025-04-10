@@ -67,7 +67,11 @@ const config: Config = {
 				sm: "calc(var(--radius) - 4px)"
 			},
 			fontFamily: {
-				sans: [...fontFamily.sans]
+				sans: [...fontFamily.sans],
+				'lilita': ['"Lilita One"', 'sans-serif'],
+				'zain': ['"Zain"', 'sans-serif'],
+				'ghasem': ['AGhasem', 'sans-serif'],
+				'arsoo': ['"FPArsoo"', 'sans-serif']
 			},
 			keyframes: {
 				"accordion-down": {
