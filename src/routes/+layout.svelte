@@ -30,16 +30,16 @@
 
 
 <nav class="h-14 w-9/12 fixed container px-1 lg:px-2 mt-6 center rounded-lg border border-slate-300 drop-shadow-md backdrop-blur-2xl z-30 hidden md:inline">
-	<div class="mx-12 h-full flex flex-row justify-between">
-		<div class="h-full"><a href="{base}/" aria-label="Go Back To Home Page" class="w-full h-full flex align-text-bottom items-center font-bold text-2xl text-amber-500 font-ghasem">تبدیل شو</a></div>
+	<div class="mx-4 lg:mx-12 h-full flex flex-row justify-between">
+		<div class="my-auto flex flex-row justify-center text-center items-center font-base text-md">
+			<div class=" bg-rose-600 px-4 py-2 rounded-md hover:bg-opacity-85 text-white"><a class="flex items-center gap-2" href="{base}/app-download"><AppIcon/>دانلود اپلیکیشن</a></div>
+		</div>
 		<ul class="h-full my-auto flex flex-row gap-[5vw] lg:gap-[6vw] font-base text-md">
 			<Navelement path="{base}/privacy" text="حریم خصوصی" arialabel="Go To Privacy Page"/>
 			<Navelement path="{base}/about" text="درباره" arialabel="Go To About Page"/>
 			<Navelement path="{base}/" text="خانه" arialabel="Go To Home Page"/>
 		</ul>
-		<ul class="my-auto flex flex-row justify-center text-center items-center gap-[3vw] font-base text-md">
-			<li class=" bg-rose-600 px-4 py-2 rounded-md hover:bg-opacity-85 text-white"><a class="flex items-center gap-2" href="{base}/app-download"><AppIcon/>دانلود اپلیکیشن</a></li>
-		</ul>
+		<div class="h-full"><a href="{base}/" aria-label="Go Back To Home Page" class="w-full h-full flex align-text-bottom items-center font-bold text-2xl text-amber-500 font-ghasem">تبدیل شو</a></div>
 	</div>
 </nav>
 <nav bind:this={navbar} id="mobile-nav" class="top-4 left-4 w-[90dvw] h-14 overflow-hidden fixed center rounded-lg border border-slate-400 drop-shadow-2xl font-paper backdrop-blur-2xl z-30 md:hidden">
@@ -70,3 +70,8 @@
 </nav>
 
 {@render children()}
+
+<div class="w-full h-20 fixed bottom-0"></div>
+<footer class="w-full h-40 bg-slate-400 border-t border-zinc-700">
+
+</footer>
