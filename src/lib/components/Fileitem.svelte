@@ -70,7 +70,7 @@
         {/if}
         <div class="flex gap-1">
             <span>نام :</span>
-            <span class="max-w-[10ch] font-sans truncate">{title}</span>
+            <span class="max-w-[15ch] font-sans truncate">{title}</span>
         </div>
     </div>
     <div class="font-mono">
