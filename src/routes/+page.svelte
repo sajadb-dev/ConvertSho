@@ -2,8 +2,10 @@
 	import Fileitem from "$lib/components/Fileitem.svelte";
   import { FileUpload } from "melt/builders";
 	import { SvelteSet } from "svelte/reactivity";
+  import { Button } from "$lib/components/ui/button/index.js";
   import UploadIcon from "~icons/tabler/cloud-upload";
   import XIcon from "~icons/tabler/x";
+  import ConvertIcon from "~icons/simple-icons/convertio"
 
 
     const extensions = {
@@ -109,6 +111,12 @@
       {#each files as file }
       <Fileitem title = {file.name} filetype = {file.type}/>
       {/each}
+      <div class="w-full flex justify-end">
+        <Button class="w-40 flex gap-2" onclick={() => console.log('ff')} disabled>
+          <ConvertIcon/>
+          <p>Convert</p>
+        </Button>
+      </div>
     </div>
     {/if}
     </div>
