@@ -73,7 +73,7 @@
 <Toaster/>
 {@render children()}
 
-<div class="w-full h-20 flex justify-center fixed bottom-0">
+<div class="w-full h-20 flex items-center justify-center fixed bottom-0 ">
 	<div id="mediaad-5kXON"></div>
 </div>
 <footer class="w-full h-44 px-1 lg:px-24 pt-4 mt-44 flex flex-col gap-2 items-center bg-slate-300 border-t border-zinc-700">
