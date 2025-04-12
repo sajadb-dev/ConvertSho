@@ -6,6 +6,8 @@
 	import { page } from '$app/state';
   	import { base } from '$app/paths';
 	import AppIcon from '$lib/components/AppIcon.svelte';
+	import Toaster from '$lib/components/Toaster.svelte';
+
 
 	let { children } = $props();
 
@@ -68,23 +70,23 @@
 		</div>
 	</div>
 </nav>
-
+<Toaster/>
 {@render children()}
 
 <div class="w-full h-20 flex justify-center fixed bottom-0">
 	<div id="mediaad-5kXON"></div>
 </div>
-<footer class="w-full h-44 px-24 pt-4 flex flex-col gap-2 items-center bg-slate-300 border-t border-zinc-700">
-	<div class="flex gap-24">	
-		<ul dir="rtl" class="h-6 flex gap-[6vw] font-base text-lg">
+<footer class="w-full h-44 px-1 lg:px-24 pt-4 mt-44 flex flex-col gap-2 items-center bg-slate-300 border-t border-zinc-700">
+	<div class="flex gap-6 lg:gap-24">	
+		<ul dir="rtl" class="h-6 flex gap-[6vw] font-base text-sm lg:text-lg">
 			<Navelement path="{base}/" text="خانه" arialabel="Go To Home Page"/>
 			<Navelement path="{base}/about" text="درباره" arialabel="Go To About Page"/>
 			<Navelement path="{base}/privacy" text="حریم خصوصی" arialabel="Go To Privacy Page"/>
-			<Navelement path="{base}/app-download" text="دانلود اپلیکیشن" arialabel="Go To Application Download Page" classnames="text-lg text-orange-600 dark:text-orange-400 font-bold "/>
+			<Navelement path="{base}/app-download" text="دانلود اپلیکیشن" arialabel="Go To Application Download Page" classnames="text-orange-600 dark:text-orange-400 font-bold "/>
 		</ul>
-		<div class="h-full"><a href="/" class="w-full h-full text-2xl text-amber-500 font-ghasem">تبدیل شو</a></div>
+		<div class="h-full"><a href="/" class="w-full h-full text-lg lg:text-xl text-amber-500 font-ghasem">تبدیل شو</a></div>
 	</div>
-	<div class="flex gap-6">
+	<div class="flex gap-1 sm:gap-6">
 		<p>.تمامی حقوق سایت محفوظ می باشد</p>
 		<p>|</p>
 		<p dir="rtl">طراحی توسط sajadb.dev</p>

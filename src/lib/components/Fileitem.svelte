@@ -2,10 +2,12 @@
     import MovieIcon from "~icons/tabler/movie";
     import AudioIcon from "~icons/tabler/volume";
     import ImageIcon from "~icons/tabler/photo";
+    import XIcon from "~icons/tabler/x";
     import * as Select from "$lib/components/ui/select/index.js";
     import * as Tabs from "$lib/components/ui/tabs/index.js";
+	import Button from "./ui/button/button.svelte";
 
-    let { filetype, title} = $props();
+    let { filetype, title, removeitem} = $props();
 
     const extensions = {
       image: [
@@ -57,9 +59,10 @@
         return "فرمت"
 
     });
+
 </script>
 
-<div class="w-11/12 lg:w-full h-20 px-2 lg:px-12 flex gap-2 lg:gap-6 items-center justify-between rounded-lg border bg-zinc-50 border-slate-300 drop-shadow-md">
+<div class="w-full min-h-20 px-2 lg:px-12 flex gap-2 lg:gap-6 items-center justify-between rounded-lg border bg-zinc-50 border-slate-300 drop-shadow-md">
     <div class="flex gap-2 lg:gap-6 items-center">
         {#if filetype.includes('video')}
             <MovieIcon class="text-4xl text-amber-500" />
@@ -69,11 +72,11 @@
             <ImageIcon class="text-4xl text-purple-500" />
         {/if}
         <div class="flex gap-1">
-            <span>نام :</span>
-            <span class="max-w-[15ch] font-sans truncate">{title}</span>
+            <span class="w-8">نام :</span>
+            <span class="max-w-[12ch] sm:max-w-[20ch] md:max-w-[40ch] lg:max-w-[60ch] font-sans truncate">{title}</span>
         </div>
     </div>
-    <div class="font-mono">
+    <div class="flex gap-2 lg:gap-8 font-mono">
     <Select.Root type="single" bind:value>
         <Select.Trigger class="w-32 outline-none focus:outline-none focus:ring-0 text-center text-muted-foreground bg-background text-md font-medium">
             {triggerContent}
@@ -81,10 +84,10 @@
         <Select.Content class="h-fit">
             {#if filetype.includes("image")}
                 <div class="grid grid-cols-2 gap-2 w-fit">
-                    {#each extensions.image as elt}
+                    {#each extensions.image as elm}
                         <div class="col-span-1 text-center">
-                            <Select.Item value={elt} label={elt} class="mx-auto font-mono">
-                                {elt}
+                            <Select.Item value={elm} label={elm} class="mx-auto font-mono">
+                                {elm}
                             </Select.Item>
                         </div>
                     {/each}
@@ -102,10 +105,10 @@
                     </Tabs.List>
                     <Tabs.Content value="video">
                         <div class="grid grid-cols-3 gap-2 w-fit">
-                            {#each extensions.video as elt}
+                            {#each extensions.video as elm}
                                 <div class="col-span-1 text-center">
-                                    <Select.Item value={elt} label={elt} class="mx-auto font-mono">
-                                        {elt}
+                                    <Select.Item value={elm} label={elm} class="mx-auto font-mono">
+                                        {elm}
                                     </Select.Item>
                                 </div>
                             {/each}
@@ -113,10 +116,10 @@
                     </Tabs.Content>
                     <Tabs.Content value="audio">
                         <div class="grid grid-cols-3 gap-2 w-fit">
-                            {#each extensions.audio as elt}
+                            {#each extensions.audio as elm}
                                 <div class="col-span-1 text-center">
-                                    <Select.Item value={elt} label={elt} class="mx-auto font-mono">
-                                        {elt}
+                                    <Select.Item value={elm} label={elm} class="mx-auto font-mono">
+                                        {elm}
                                     </Select.Item>
                                 </div>
                             {/each}
@@ -126,10 +129,10 @@
             {/if}
             {#if filetype.includes("audio")}
                 <div class="grid grid-cols-2 gap-2 w-fit">
-                    {#each extensions.audio as elt}
+                    {#each extensions.audio as elm}
                         <div class="col-span-1 text-center">
-                            <Select.Item value={elt} label={elt} class="mx-auto font-mono">
-                                {elt}
+                            <Select.Item value={elm} label={elm} class="mx-auto font-mono">
+                                {elm}
                             </Select.Item>
                         </div>
                     {/each}
@@ -137,5 +140,6 @@
             {/if}
         </Select.Content>
     </Select.Root>
+    <Button variant="outline" size="icon" onclick={removeitem}><XIcon/></Button>
     </div>
 </div>
