@@ -272,7 +272,7 @@ $inspect(uploadfiles);
         title={file.file_name} 
         filetype={file.file_type} 
         updateAction={updateAction} 
-        handleDownload={download}
+        handleDownload={() => download(file)}
         removeitem={() => {fileUpload.remove(file.file);}}
         isconverting={is_converting}
         isdone={is_done}
