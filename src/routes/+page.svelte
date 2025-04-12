@@ -154,10 +154,11 @@
   };
 
   $effect(()=> {
+    if(ffmpegRef !== null){
     ffmpegRef.on('progress', ({ progress, time } ) => {
 			progressvalue = progress * 100;
 			console.log(progressvalue);
-		})});
+		})}});
 
   function download (action: Action) {
     const a = document.createElement("a");
