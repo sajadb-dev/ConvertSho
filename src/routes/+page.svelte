@@ -89,9 +89,21 @@
     },
   });
 
-  let uploadfiles = $derived.by(() => {
+  let uploadfiles: Action[] = $derived.by(() => {
     if (fileUpload.selected instanceof SvelteSet) {
-      return Array.from(fileUpload.selected).map(file => ({
+      return Array.from(fileUpload.selected as Set<File>).map(file => ({
+        file_name: file.name,
+        file_size: file.size,
+        from: file.name.slice(((file.name.lastIndexOf(".") - 1) >>> 0) + 2),
+        to: null as string | null,
+        file_type: file.type,
+        file,
+        is_converted: false,
+        is_converting: false,
+        is_error: false,
+      }));
+    }
+    return [fileUpload.selected as File].filter((f): f is File => !!f).map(file => ({
         file_name: file.name,
         file_size: file.size,
         from: file.name.slice(((file.name.lastIndexOf(".") - 1) >>> 0) + 2),
@@ -102,8 +114,6 @@
         is_converting: false,
         is_error: false,
       }));
-    }
-    return [];
   });
 
   const updateAction = (file_name: String, to: String) => {
@@ -182,9 +192,9 @@
     load();
   });
 
-  async function convert (): Promise<any>  {
-    let tmp_actions = uploadfiles.map((elt) => ({
-      ...elt,
+  async function convert(): Promise<any>  {
+    let tmp_actions = uploadfiles.map((elm) => ({
+      ...elm,
       is_converting: true,
     }));
     uploadfiles = tmp_actions;
@@ -266,11 +276,11 @@ $inspect(uploadfiles);
         removeitem={() => {fileUpload.remove(file.file);}}
         isconverting={is_converting}
         isdone={is_done}
-        progressValue={progressvalue}/>
-
+        progressValue={progressvalue}
+        iserror={file.is_error}/>
       {/each}
       <div class="w-full flex justify-end">
-        <Button class="w-40 flex gap-2" onclick={convert} disabled={!checkIsReady()}>
+        <Button class="w-40 flex gap-2" onclick={convert} disabled={!checkIsReady() || is_converting}>
           <ConvertIcon/>
           <p>تبدیل</p>
         </Button>

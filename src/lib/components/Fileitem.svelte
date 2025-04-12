@@ -7,8 +7,18 @@
     import * as Tabs from "$lib/components/ui/tabs/index.js";
 	import Button from "./ui/button/button.svelte";
     import { Progress } from "$lib/components/ui/progress/index.js";
+    import { Badge } from "$lib/components/ui/badge/index.js";
 
-    let { filetype, title, removeitem, handleDownload, updateAction, isconverting, isdone, progressValue} = $props();
+    let { 
+        filetype, 
+        title,
+        removeitem, 
+        handleDownload, 
+        updateAction, 
+        isconverting, 
+        isdone, 
+        progressValue, 
+        iserror} = $props();
 
     const extensions = {
       image: [
@@ -79,8 +89,10 @@
     </div>
     {#if isconverting}
     <Progress value={progressValue} />
-    {:else if isdone}
+    {:else if isdone && !iserror}
     <Button variant="outline" onclick={handleDownload}>Download</Button>
+    {:else if iserror}
+    <Badge class="font-sans" variant="destructive">خطا در پروسه تبدیل</Badge>
     {:else}
     <div class="flex gap-2 lg:gap-8 font-mono">
     <Select.Root type="single" onValueChange={(e) => {selected = e; updateAction(title, e);}}>
