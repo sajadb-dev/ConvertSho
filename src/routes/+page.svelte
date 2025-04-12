@@ -78,7 +78,7 @@
   const fileUpload = new FileUpload({
     accept: 'image/*,video/*,audio/*',
     multiple: true,
-    maxSize: 2147483648,
+    maxSize: 104857600,
     onError(error) {
       addToast({
       data: {
@@ -233,7 +233,7 @@
   };
 $inspect(uploadfiles);
 </script>
-<div class="pt-28 lg:pt-44 flex flex-col lg:flex-row">
+<div class=" min-h-[100dvh] pt-28 lg:pt-44 flex flex-col lg:flex-row">
   <div class="w-full lg:w-2/6 mb-12 flex items-center justify-center">
     <div class="w-full h-0 lg:w-1/3 lg:h-full"></div>
   </div>
@@ -261,7 +261,7 @@ $inspect(uploadfiles);
 						  <span class="font-semibold text-gray-900 dark:text-white">برای آپلود کلیک کنید</span>
 						  یا فایل خود را اینجا بی اندازید
 					  </p>
-            <p dir="rtl">( سقف مجاز فایل 2GB )</p>
+            <p dir="rtl">( سقف مجاز فایل{fileUpload.maxSize/1024/1024}MB )</p>
           {/if}
         </div>
     </div>

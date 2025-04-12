@@ -86,9 +86,9 @@
 		</ul>
 		<div class="h-full"><a href="/" class="w-full h-full text-lg lg:text-xl text-amber-500 font-ghasem">تبدیل شو</a></div>
 	</div>
-	<div class="flex gap-1 sm:gap-6">
-		<p>.تمامی حقوق سایت محفوظ می باشد</p>
+	<div class="flex gap-1 sm:gap-4">
+		<p dir="rtl" class="w-full">.تمامی حقوق سایت محفوظ می باشد</p>
 		<p>|</p>
-		<p dir="rtl">طراحی توسط sajadb.dev</p>
+		<p dir="rtl" class="w-full">طراحی توسط sajadb.dev</p>
 	</div>
 </footer>

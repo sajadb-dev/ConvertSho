@@ -2,6 +2,7 @@
     import MovieIcon from "~icons/tabler/movie";
     import AudioIcon from "~icons/tabler/volume";
     import ImageIcon from "~icons/tabler/photo";
+    import DownloadIcon from "~icons/tabler/cloud-download";
     import XIcon from "~icons/tabler/x";
     import * as Select from "$lib/components/ui/select/index.js";
     import * as Tabs from "$lib/components/ui/tabs/index.js";
@@ -90,7 +91,10 @@
     {#if isconverting}
     <Progress value={progressValue} />
     {:else if isdone && !iserror}
-    <Button variant="outline" onclick={handleDownload}>Download</Button>
+    <Button variant="outline" onclick={handleDownload}>
+        <DownloadIcon/>
+        <span>دانلود</span>
+    </Button>
     {:else if iserror}
     <Badge class="font-sans" variant="destructive">خطا در پروسه تبدیل</Badge>
     {:else}
