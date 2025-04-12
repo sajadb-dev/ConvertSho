@@ -37,6 +37,8 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"@ffmpeg/ffmpeg": "^0.12.15",
+		"@ffmpeg/util": "^0.12.2",
 		"melt": "0.29.2",
 		"svelte-file-dropzone": "^2.0.9"
 	}

@@ -6,7 +6,19 @@
   import { addToast } from '$lib/components/Toaster.svelte'
   import UploadIcon from "~icons/tabler/cloud-upload";
   import ConvertIcon from "~icons/simple-icons/convertio"
+  import type { Action } from "$lib/types";
+  import loadFfmpeg from "$lib/utils/load-ffmpeg";
+  import { FFmpeg } from "@ffmpeg/ffmpeg";
+  import convertFile from "$lib/utils/convert";
 
+
+  let actions = $state<Action[]>([]);
+  let is_ready = $state<boolean>(false);
+  let files = $state<Array<any>>([]);
+  let is_converting = $state<boolean>(false);
+  let is_done = $state<boolean>(false);
+  let progressvalue = $state(0);
+  let ffmpegRef: FFmpeg | null = $state(null);
 
     const extensions = {
       image: [
@@ -77,12 +89,46 @@
     },
   });
 
-  let files = $derived.by(() => {
-		if (fileUpload.selected instanceof SvelteSet) {
-			return Array.from(fileUpload.selected);
-		}
-		return [fileUpload.selected].filter((f): f is File => !!f);
-	});
+  let uploadfiles = $derived.by(() => {
+    if (fileUpload.selected instanceof SvelteSet) {
+      return Array.from(fileUpload.selected).map(file => ({
+        file_name: file.name,
+        file_size: file.size,
+        from: file.name.slice(((file.name.lastIndexOf(".") - 1) >>> 0) + 2),
+        to: null,
+        file_type: file.type,
+        file,
+        is_converted: false,
+        is_converting: false,
+        is_error: false,
+      }));
+    }
+    return [];
+  });
+
+  const updateAction = (file_name: String, to: String) => {
+    uploadfiles = uploadfiles.map((action): Action => {
+        if (action.file_name === file_name) {
+          console.log("FOUND");
+          return {
+            ...action,
+            to,
+          };
+        }
+
+        return action;
+      });
+  };
+
+  const checkIsReady = (): boolean => {
+    let tmp_is_ready = true;
+    uploadfiles.forEach((file: Action) => {
+      if (file.to === null)
+        tmp_is_ready = false;
+    });
+    return tmp_is_ready;
+  };
+
 
   function toastMsg(a: string) {
     if(a.includes("File type application/postscript is not accepted"))
@@ -93,6 +139,88 @@
     return "خطا در پروسه تبدیل"
   }
 
+  function reset ()  {
+    is_done = false;
+    actions = [];
+    files = [];
+    is_ready = false;
+    is_converting = false;
+  };
+
+  function downloadAll (): void {
+    for (let action of actions) {
+      !action.is_error && download(action);
+    }
+  };
+
+  $effect(()=> {
+    ffmpegRef.on('progress', ({ progress, time } ) => {
+			progressvalue = progress * 100;
+			console.log(progressvalue);
+		})});
+
+  function download (action: Action) {
+    const a = document.createElement("a");
+    a.style.display = "none";
+    a.href = action.url;
+    a.download = action.output;
+
+    document.body.appendChild(a);
+    a.click();
+
+    // Clean up after download
+    URL.revokeObjectURL(action.url);
+    document.body.removeChild(a);
+  };
+
+  const load = async () => {
+    const ffmpeg_response: FFmpeg = await loadFfmpeg();
+    ffmpegRef = ffmpeg_response;
+  };
+  $effect(() => {
+    load();
+  });
+
+  async function convert (): Promise<any>  {
+    let tmp_actions = uploadfiles.map((elt) => ({
+      ...elt,
+      is_converting: true,
+    }));
+    uploadfiles = tmp_actions;
+    is_converting = true;
+    for (let action of tmp_actions) {
+      try {
+        const { url, output } = await convertFile(ffmpegRef, action);
+        tmp_actions = tmp_actions.map((elt) =>
+          elt === action
+            ? {
+                ...elt,
+                is_converted: true,
+                is_converting: false,
+                url,
+                output,
+              }
+            : elt
+        );
+        uploadfiles = tmp_actions;
+      } catch (err) {
+        tmp_actions = tmp_actions.map((elt) =>
+          elt === action
+            ? {
+                ...elt,
+                is_converted: false,
+                is_converting: false,
+                is_error: true,
+              }
+            : elt
+        );
+        uploadfiles = tmp_actions;
+      }
+    }
+    is_done = true;
+    is_converting = false;
+  };
+$inspect(uploadfiles);
 </script>
 <div class="pt-28 lg:pt-44 flex flex-col lg:flex-row">
   <div class="w-full lg:w-2/6 mb-12 flex items-center justify-center">
@@ -104,7 +232,7 @@
         <h3 class="text-2xl lg:text-4xl">فایل های صوتی تصویری خود را به آسانی به فرمت های مختلف تبدیل کنید</h3>
     </div>
     <div class="mt-20 flex justify-center">
-      {#if files.length === 0}
+      {#if uploadfiles.length === 0}
       <div id="dropzone" class="w-10/12 h-96">
         <input {...fileUpload.input}/>
         <div class="relative flex w-full h-full cursor-pointer
@@ -128,11 +256,20 @@
     </div>
     {:else}
     <div class=" w-full mx-2 flex flex-col gap-8 items-center">
-      {#each files as file }
-      <Fileitem title = {file.name} filetype = {file.type} removeitem={() => {fileUpload.remove(file);}}/>
+      {#each uploadfiles as file }
+      <Fileitem 
+        title={file.file_name} 
+        filetype={file.file_type} 
+        updateAction={updateAction} 
+        handleDownload={download}
+        removeitem={() => {fileUpload.remove(file.file);}}
+        isconverting={is_converting}
+        isdone={is_done}
+        progressValue={progressvalue}/>
+
       {/each}
       <div class="w-full flex justify-end">
-        <Button class="w-40 flex gap-2" onclick={() => console.log('ff')} disabled>
+        <Button class="w-40 flex gap-2" onclick={convert} disabled={!checkIsReady()}>
           <ConvertIcon/>
           <p>تبدیل</p>
         </Button>

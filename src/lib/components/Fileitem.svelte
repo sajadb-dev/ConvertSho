@@ -6,8 +6,9 @@
     import * as Select from "$lib/components/ui/select/index.js";
     import * as Tabs from "$lib/components/ui/tabs/index.js";
 	import Button from "./ui/button/button.svelte";
+    import { Progress } from "$lib/components/ui/progress/index.js";
 
-    let { filetype, title, removeitem} = $props();
+    let { filetype, title, removeitem, handleDownload, updateAction, isconverting, isdone, progressValue} = $props();
 
     const extensions = {
       image: [
@@ -44,16 +45,16 @@
       ],
       audio: ["mp3", "wav", "ogg", "aac", "wma", "flac", "m4a"],
     };
-    let value = $state("");
+    let selected = $state("");
     const defaultValues = "video";
     let triggerContent = $derived.by(() => {
-        if(value !== "") {
+        if(selected !== "") {
             if(filetype.includes('image'))
-                return extensions.image.find((f) => f === value)
+                return extensions.image.find((f) => f === selected)
             else if(filetype.includes('video'))
-                return extensions.video.find((f) => f === value)
+                return extensions.video.find((f) => f === selected)
             else if(filetype.includes('audio'))
-                return extensions.audio.find((f) => f === value)
+                return extensions.audio.find((f) => f === selected)
         }
         else
         return "فرمت"
@@ -76,8 +77,13 @@
             <span class="max-w-[12ch] sm:max-w-[20ch] md:max-w-[40ch] lg:max-w-[60ch] font-sans truncate">{title}</span>
         </div>
     </div>
+    {#if isconverting}
+    <Progress value={progressValue} />
+    {:else if isdone}
+    <Button variant="outline" onclick={handleDownload}>Download</Button>
+    {:else}
     <div class="flex gap-2 lg:gap-8 font-mono">
-    <Select.Root type="single" bind:value>
+    <Select.Root type="single" onValueChange={(e) => {selected = e; updateAction(title, e);}}>
         <Select.Trigger class="w-32 outline-none focus:outline-none focus:ring-0 text-center text-muted-foreground bg-background text-md font-medium">
             {triggerContent}
         </Select.Trigger>
@@ -140,6 +146,9 @@
             {/if}
         </Select.Content>
     </Select.Root>
-    <Button variant="outline" size="icon" onclick={removeitem}><XIcon/></Button>
+    <Button variant="outline" size="icon" onclick={removeitem}>
+        <XIcon/>
+    </Button>
     </div>
+    {/if}
 </div>
