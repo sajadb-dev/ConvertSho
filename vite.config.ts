@@ -19,7 +19,7 @@ const viteServerConfig = {
 
 
 export default defineConfig({
-	plugins: [Icons({compiler: 'svelte',}),sveltekit(), viteServerConfig],
+	plugins: [Icons({compiler: 'svelte',}),sveltekit()],
 	resolve: {
 		alias: {
 		  '@': fileURLToPath(new URL('./src', import.meta.url))
