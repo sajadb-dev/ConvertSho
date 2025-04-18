@@ -65,10 +65,12 @@
   }
   @font-face {
     font-family: 'AGhasem';
+    font-display: swap;
     src: url('/fonts/AGhasem.woff');
   }
   @font-face {
     font-family: 'FPArsoo';
+    font-display: swap;
     src: url('/fonts/FPArsoo.woff');
   }
 }

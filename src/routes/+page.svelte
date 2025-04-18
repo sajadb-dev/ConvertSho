@@ -12,68 +12,11 @@
   import convertFile from "$lib/utils/convert";
 
 
-  let actions = $state<Action[]>([]);
-  let is_ready = $state<boolean>(false);
-  let files = $state<Array<any>>([]);
   let is_converting = $state<boolean>(false);
   let is_done = $state<boolean>(false);
   let progressvalue = $state(0);
   let ffmpegRef: FFmpeg | null = $state(null);
 
-    const extensions = {
-      image: [
-        "jpg",
-        "jpeg",
-        "png",
-        "gif",
-        "bmp",
-        "webp",
-        "ico",
-        "tif",
-        "tiff",
-        "svg",
-        "raw",
-        "tga",
-      ],
-      video: [
-        "mp4",
-        "m4v",
-        "mp4v",
-        "3gp",
-        "3g2",
-        "avi",
-        "mov",
-        "wmv",
-        "mkv",
-        "flv",
-        "ogv",
-        "webm",
-        "h264",
-        "264",
-        "hevc",
-        "265",
-      ],
-      audio: ["mp3", "wav", "ogg", "aac", "wma", "flac", "m4a"],
-    };
-    const accepted_files = {
-    "image/*": [
-      ".jpg",
-      ".jpeg",
-      ".png",
-      ".gif",
-      ".bmp",
-      ".webp",
-      ".ico",
-      ".tif",
-      ".tiff",
-      ".raw",
-      ".tga",
-    ],
-    "audio/*": [],
-    "video/*": [],
-  };
-
-  let errorMsg = $state();
 
   const fileUpload = new FileUpload({
     accept: 'image/*,video/*,audio/*',
@@ -150,18 +93,13 @@
   }
 
   function reset ()  {
-    is_done = false;
-    actions = [];
-    files = [];
-    is_ready = false;
+
+    fileUpload.clear();
     is_converting = false;
+    is_done = false;
+
   };
 
-  function downloadAll (): void {
-    for (let action of actions) {
-      !action.is_error && download(action);
-    }
-  };
 
   $effect(()=> {
     if(ffmpegRef !== null){
@@ -239,7 +177,7 @@ $inspect(uploadfiles);
   <div class="w-full">
     <div class="w-full px-2 flex flex-col text-center gap-8">
         <h1 class="text-4xl lg:text-6xl">فایل هاتو تبدیل کن</h1>
-        <h3 class="text-2xl lg:text-4xl">فایل های صوتی تصویری خود را به آسانی به فرمت های مختلف تبدیل کنید</h3>
+        <h2 class="text-2xl lg:text-4xl">فایل های صوتی تصویری خود را به آسانی به فرمت های مختلف تبدیل کنید</h2>
     </div>
     <div class="mt-20 flex justify-center">
       {#if uploadfiles.length === 0}
@@ -278,11 +216,16 @@ $inspect(uploadfiles);
         progressValue={progressvalue}
         iserror={file.is_error}/>
       {/each}
-      <div class="w-full flex justify-end">
+      <div class="w-full flex flex-col gap-4 items-end">
         <Button class="w-40 flex gap-2" onclick={convert} disabled={!checkIsReady() || is_converting}>
           <ConvertIcon/>
           <p>تبدیل</p>
         </Button>
+        <div class:hidden={!is_done}>
+          <Button class="w-40 bg-white text-black hover:bg-slate-200 active:bg-slate-400 flex gap-2" onclick={reset}>
+            <p>انتخاب فایل دیگر</p>
+          </Button>
+        </div>
       </div>
     </div>
     {/if}
